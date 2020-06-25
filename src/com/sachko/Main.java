@@ -2,6 +2,7 @@ package com.sachko;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -13,10 +14,10 @@ public class Main {
             //PersonDetails person = new PersonDetails(input.next(), input.nextInt(), input.next(), input.nextDouble()); Input manually
             Employee person = new Employee("name" + i, i, "male", i);
             //addPersonToTheList(person);
-            sortByName();
 
 
         }
+        sortByName();
         readEveryPersonInTheList();
 
     }
@@ -112,7 +113,8 @@ public class Main {
         }
 
     }
-    private static void sortMyGender(){
+
+    private static void sortByGender() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(nameOfFile));
             ArrayList<Employee> peopleRecords = new ArrayList<>();
@@ -148,3 +150,76 @@ public class Main {
     }
 }
 
+class Employee {
+    String firstNameOfPerson;
+    int ageOfPerson;
+    String genderOfPerson;
+    int amountOfInternship;
+
+    public Employee(String name, int age, String gender, int internship) {
+        this.firstNameOfPerson = name;
+        this.ageOfPerson = age;
+        this.genderOfPerson = gender;
+        this.amountOfInternship = internship;
+    }
+}
+
+class CompareByName implements Comparator<Employee> {
+
+    @Override
+    public int compare(Employee o1, Employee o2) {
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
+            if (o1.firstNameOfPerson.contains("Polq")){
+                return -1;
+            } else if(o2.firstNameOfPerson.contains("Polq")) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } else {
+            return o1.firstNameOfPerson.compareToIgnoreCase(o2.firstNameOfPerson);
+        }
+
+
+    }
+}
+
+class CompareByInternship implements Comparator<Employee> {
+
+    @Override
+    public int compare(Employee o1, Employee o2) {
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
+            if (o1.firstNameOfPerson.contains("Polq")){
+                return -1;
+            } else if(o2.firstNameOfPerson.contains("Polq")) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } else {
+            return o2.amountOfInternship - o1.amountOfInternship;
+        }
+
+    }
+}
+
+class CompareByGender implements Comparator<Employee> {
+    @Override
+    public int compare(Employee o1, Employee o2) {
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
+            if (o1.firstNameOfPerson.contains("Polq")){
+                return -1;
+            } else if(o2.firstNameOfPerson.contains("Polq")) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } else {
+            return o1.genderOfPerson.compareToIgnoreCase(o2.genderOfPerson);
+            //същия код като при сортирането с име за да няма дискриминация :)
+        }
+    }
+}
