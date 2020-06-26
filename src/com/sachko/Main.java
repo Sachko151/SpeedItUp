@@ -3,6 +3,7 @@ package com.sachko;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,16 +11,74 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        for (int i = 1; i <= 3; i++) {
-            //PersonDetails person = new PersonDetails(input.next(), input.nextInt(), input.next(), input.nextDouble()); Input manually
-            Employee person = new Employee("name" + i, i, "male", i);
-            //addPersonToTheList(person);
+        showMenuOptions();
+        do {
+            try {
+                menuAction(input.nextInt(), input);
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a correct response!");
+                break;
+            }
 
+        } while (true);
+    }
 
+    private static void showMenuOptions() {
+        System.out.println("Welcome, what would you like to do? |please enter the number of the task which you want to " +
+                "perform|");
+        System.out.println("1. Create a new list with employees or add them to an already existing list");
+        System.out.println("2. Sort list by Name");
+        System.out.println("3. Sort list by Age");
+        System.out.println("4. Sort list by Gender");
+        System.out.println("5. View the list");
+        System.out.println("6. Delete the list");
+        System.out.println("7. Exit");
+
+    }
+
+    private static void menuAction(int n, Scanner input) {
+        switch (n) {
+            case 1:
+                System.out.println("How many people would you like to add?");
+                int amountOfPeopleTheUserWishedToAdd = input.nextInt();
+                for (int i = 1; i <= amountOfPeopleTheUserWishedToAdd; i++) {
+                    System.out.println("Please enter the person's name: ");
+                    String personName = input.next();
+                    System.out.println("Please enter the person's age: ");
+                    int personAge = input.nextInt();
+                    System.out.println("Please enter the person's gender: ");
+                    String personGender = input.next();
+                    System.out.println("Please enter the person's internship: ");
+                    int personInternship = input.nextInt();
+                    Employee person = new Employee(personName, personAge, personGender, personInternship);
+                    //Employee person = new Employee("name" + i, i, "male", i);
+                    addPersonToTheList(person);
+                }
+                showMenuOptions();
+                break;
+            case 2:
+                sortByName();
+
+                break;
+            case 3:
+                sortByAge();
+
+                break;
+            case 4:
+                sortByGender();
+                break;
+            case 5:
+                readTheList();
+                break;
+            case 6:
+                deleteTheList();
+                break;
+            case 7:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Please choose a valid option!");
         }
-        sortByName();
-        readEveryPersonInTheList();
-
     }
 
     private static void addPersonToTheList(Employee person) {
@@ -37,8 +96,9 @@ public class Main {
 
     }
 
-    private static void readEveryPersonInTheList() {
+    private static void readTheList() {
         try {
+            System.out.println("|Name-Age-Gender-Internship|");
             File fileWithNames = new File(nameOfFile);
             Scanner reader = new Scanner(fileWithNames);
             while (reader.hasNextLine()) {
@@ -47,8 +107,14 @@ public class Main {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Nothing to read!");
         }
+    }
+
+    private static void deleteTheList() {
+        File file = new File(nameOfFile);
+        file.delete();
+        System.out.println("The list has been deleted!");
     }
 
     private static void sortByName() {
@@ -77,13 +143,14 @@ public class Main {
             reader.close();
 
             writer.close();
+            System.out.println("The list has been sorted by name!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Nothing to sort!");
         }
 
     }
 
-    private static void sortByInternship() {
+    private static void sortByAge() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(nameOfFile));
             ArrayList<Employee> peopleRecords = new ArrayList<>();
@@ -97,7 +164,7 @@ public class Main {
                 peopleRecords.add(new Employee(name, age, gender, internship));
                 currentLine = reader.readLine();
             }
-            peopleRecords.sort(new CompareByInternship());
+            peopleRecords.sort(new CompareByAge());
             BufferedWriter writer = new BufferedWriter(new FileWriter(nameOfFile));
             for (Employee employee : peopleRecords) {
                 writer.write(employee.firstNameOfPerson);
@@ -108,8 +175,9 @@ public class Main {
             }
             reader.close();
             writer.close();
+            System.out.println("The list has been sorted by age!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Nothing to sort!");
         }
 
     }
@@ -144,8 +212,9 @@ public class Main {
             reader.close();
 
             writer.close();
+            System.out.println("The list has been sorted by gender!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Nothing to sort!");
         }
     }
 }
@@ -168,10 +237,10 @@ class CompareByName implements Comparator<Employee> {
 
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
-            if (o1.firstNameOfPerson.contains("Polq")){
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
+            if (o1.firstNameOfPerson.contains("Polq")) {
                 return -1;
-            } else if(o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.contains("Polq")) {
                 return 1;
             } else {
                 return 0;
@@ -185,21 +254,21 @@ class CompareByName implements Comparator<Employee> {
     }
 }
 
-class CompareByInternship implements Comparator<Employee> {
+class CompareByAge implements Comparator<Employee> {
 
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
-            if (o1.firstNameOfPerson.contains("Polq")){
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
+            if (o1.firstNameOfPerson.contains("Polq")) {
                 return -1;
-            } else if(o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.contains("Polq")) {
                 return 1;
             } else {
                 return 0;
             }
 
         } else {
-            return o2.amountOfInternship - o1.amountOfInternship;
+            return o2.ageOfPerson - o1.ageOfPerson;
         }
 
     }
@@ -208,10 +277,10 @@ class CompareByInternship implements Comparator<Employee> {
 class CompareByGender implements Comparator<Employee> {
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")){
-            if (o1.firstNameOfPerson.contains("Polq")){
+        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
+            if (o1.firstNameOfPerson.contains("Polq")) {
                 return -1;
-            } else if(o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.contains("Polq")) {
                 return 1;
             } else {
                 return 0;
