@@ -16,7 +16,7 @@ public class Main {
             try {
                 menuAction(input.nextInt(), input);
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a correct response!");
+                System.out.println("Please enter a valid option next time!");
                 break;
             }
 
@@ -107,7 +107,7 @@ public class Main {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Nothing to read!");
+            System.out.println("Nothing to view!");
         }
     }
 
@@ -237,10 +237,13 @@ class CompareByName implements Comparator<Employee> {
 
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
-            if (o1.firstNameOfPerson.contains("Polq")) {
+        if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o1.firstNameOfPerson.equalsIgnoreCase("Поля") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
+            if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") || o1.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return -1;
-            } else if (o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.equalsIgnoreCase("Polq") || o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return 1;
             } else {
                 return 0;
@@ -258,10 +261,13 @@ class CompareByAge implements Comparator<Employee> {
 
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
-            if (o1.firstNameOfPerson.contains("Polq")) {
+        if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o1.firstNameOfPerson.equalsIgnoreCase("Поля") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
+            if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") || o1.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return -1;
-            } else if (o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.equalsIgnoreCase("Polq") || o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return 1;
             } else {
                 return 0;
@@ -277,10 +283,13 @@ class CompareByAge implements Comparator<Employee> {
 class CompareByGender implements Comparator<Employee> {
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.firstNameOfPerson.contains("Polq") || o2.firstNameOfPerson.contains("Polq")) {
-            if (o1.firstNameOfPerson.contains("Polq")) {
+        if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Polq") ||
+                o1.firstNameOfPerson.equalsIgnoreCase("Поля") ||
+                o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
+            if (o1.firstNameOfPerson.equalsIgnoreCase("Polq") || o1.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return -1;
-            } else if (o2.firstNameOfPerson.contains("Polq")) {
+            } else if (o2.firstNameOfPerson.equalsIgnoreCase("Polq") || o2.firstNameOfPerson.equalsIgnoreCase("Поля")) {
                 return 1;
             } else {
                 return 0;
