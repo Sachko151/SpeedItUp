@@ -22,7 +22,6 @@ public class Main {
 
         } while (true);
     }
-
     private static void showMenuOptions() {
         System.out.println("Welcome, what would you like to do? |please enter the number of the task which you want to " +
                 "perform|");
@@ -298,6 +297,14 @@ class CompareByGender implements Comparator<Employee> {
         } else {
             return o1.genderOfPerson.compareToIgnoreCase(o2.genderOfPerson);
             //същия код като при сортирането с име за да няма дискриминация :)
+            //иначе кода за сортирането по пол е отдолу
+           /* if (o1.genderOfPerson.equalsIgnoreCase("male")) {
+                return -1;
+            } else if (o2.genderOfPerson.equalsIgnoreCase("female")) {
+                return 1;
+            } else {
+                return 0;
+            }*/
         }
     }
 }
